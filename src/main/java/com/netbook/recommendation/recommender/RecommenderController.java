@@ -1,6 +1,7 @@
 package com.netbook.recommendation.recommender;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,10 +9,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.netbook.recommendation.book.Book;
-import com.netbook.recommendation.book.BookService;
-import com.netbook.recommendation.tag.Tag;
-import com.netbook.recommendation.user.User;
+import com.netbook.recommendation.book.*;
+import com.netbook.recommendation.tag.*;
+import com.netbook.recommendation.user.UserController;
+import com.netbook.recommendation.user.UserService;
+
+import com.netbook.recommendation.rating.Rating;
 
 @RestController
 public class RecommenderController {
@@ -19,40 +22,59 @@ public class RecommenderController {
 	@Autowired
 	private BookService bookService;
 	
-	public RecommenderController() {
-		// TODO Auto-generated constructor stub
-	}
+	@Autowired
+	private UserService userService;
+	
+	@Autowired
+	private TagService tagService;
+	
+	UserController uCon = new UserController();
 	
 	@RequestMapping("/recommend/{id}")	
-	public List<Tag> sortedList(@PathVariable Integer userId, User user){
-		//User user = userService.getUserById(userId);
-		ArrayList<Book> likedBooks = new ArrayList<Book>();
-		ArrayList<Tag> likedTags;
-	
-		// for(int i = 0; i> user.ratedBooks.length-1;i++)
-		for(int i = 0; i < user.getRatedBooks().size();i++) {
-			// IF user.ratedBooks[i].rating is bigger than 3.5/5 (or something) 
-			if(user.getRatedBooks().get(i).getAverageRating().doubleValue() > 3.5){
-				// likedBooks.add(User.ratedBooks[i])
-				likedBooks.add(user.getRatedBooks().get(i));
+	public List<Book> sortedList(@PathVariable Integer userId){
+		
+		//List<Book> allBooks = bookService.getAllBooks();
+		
+		List<Book> ratedBooks = uCon.getAllRatedBooks(userId);
+		
+		ArrayList<Tag> likedTags = new ArrayList<Tag>();
+		/*
+		List<Rating> userRatings = userService.getRatingByUser(userId);
+		
+		for(int z = 0; z < userRatings.size(); z++) {
+			
+			if(userRatings.get(z).getRating() > 3.5) {
+				
+				for(int g = 0; g < allBooks.size();g++) {
+					
+					if(allBooks.get(g).getBookid() == userRatings.get(z).getBookId()) {
+						ratedBooks.add(allBooks.get(g));
+					}	
+				}
+				
 			}
-		}
+		}*/
+		
 		
 		// TODO: likedBooks.sortByBestLiked (Maybe need to implement comparable)
 		//likedBooks.sort();
 		
-		for(int y = 0; y < likedBooks.size();y++) {
-			// likedGenres[].add(likedBooks[0].getGenres) && TODO: do it for top 3-5 instead of just most liked book?
-			// OR
-			//for (int z = 0; z < likedBooks.get(y).getGenres().size();z++){
-			//likedGenres.add(likedBooks.get(y).getGenres().get(z));
-			//}
+			List<Tag> currentTags;
+		
+		for(int y = 0; y < ratedBooks.size();y++) {
+			currentTags = ratedBooks.get(y).getTags();
+			
+			for (int z = 0; z < currentTags.size();z++){
+			likedTags.add(currentTags.get(z));
+			}
 		}
 		
-		// likedGenres.sortByMostOccuring
-		// likedGenres.getTop3UniqueGneres
+		Collections.sort(likedTags);
+		// likedTags.sortByMostOccuring;
+		// likedTags.getTop3UniqueTags
 		
 		// Search for highest rated book with those 3 genres in the database
+		tagService.getTagRepository().findById(likedTags.get(0).getTagId());
 		
 		
 		return null;
@@ -60,7 +82,7 @@ public class RecommenderController {
 	
 	@RequestMapping("/hello")
 	public String sayHi() {
-		return "Hi";
+		return "Hi! The recommender is ready!";
 	}
 
 }

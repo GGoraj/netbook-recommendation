@@ -9,11 +9,13 @@ import java.util.List;
 
 @Entity
 @Table(name = "books")
-public class Book {
+@Embeddable
+public class Book implements Comparable<Book>{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer bookid;
+    @Column(name="id")
+    private Integer id;
 
     @Column(name="goodreadsbookid")
     private Integer goodReadsBookId;
@@ -45,7 +47,6 @@ public class Book {
     @Column(name="smallimageurl")
     private String smallImageUrl;
 
-    
     @ManyToMany(targetEntity=Tag.class)
     private List<Tag> tags;
     
@@ -58,11 +59,11 @@ public class Book {
 	}
 
 	public Integer getBookid() {
-        return bookid;
+        return id;
     }
 
-    public void setBookid(Integer bookid) {
-        this.bookid = bookid;
+    public void setBookid(Integer id) {
+        this.id = id;
     }
 
     public Integer getGoodReadsBookId() {
@@ -144,10 +145,18 @@ public class Book {
     public void setSmallImageUrl(String smallImageUrl) {
         this.smallImageUrl = smallImageUrl;
     }
-
-
-
-
-
+    
+    @Override
+	public int compareTo(Book book) {
+		if(this.averageRating.doubleValue() == book.averageRating.doubleValue()) {
+			return 0;
+		}else if(this.averageRating.doubleValue() > book.averageRating.doubleValue()){
+			return 1;
+		}else if(this.averageRating.doubleValue() < book.averageRating.doubleValue()){
+			return -1;
+		}else {
+			throw new ArithmeticException("error message");		
+		}
+	}
 
 }
