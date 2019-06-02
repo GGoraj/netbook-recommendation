@@ -35,7 +35,7 @@ public class RecommenderController {
 		
 		//List<Book> allBooks = bookService.getAllBooks();
 		
-		List<Book> ratedBooks = uCon.getAllRatedBooks(userId);
+		List<Book> ratedBooks = uCon.getUserRatings(userId);
 		
 		ArrayList<Tag> likedTags = new ArrayList<Tag>();
 		/*
@@ -69,15 +69,16 @@ public class RecommenderController {
 			}
 		}
 		
-		Collections.sort(likedTags);
+		Collections.sort(ratedBooks);
 		// likedTags.sortByMostOccuring;
 		// likedTags.getTop3UniqueTags
+		for(int z = ratedBooks.size();z>5;z++) {
+			ratedBooks.remove(z);
+		}
 		
 		// Search for highest rated book with those 3 genres in the database
-		tagService.getTagRepository().findById(likedTags.get(0).getTagId());
 		
-		
-		return null;
+		return ratedBooks;
 	}
 	
 	@RequestMapping("/hello")

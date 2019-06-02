@@ -4,6 +4,8 @@ import java.util.List;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import com.netbook.recommendation.user.User;
 
 @Entity
@@ -11,6 +13,7 @@ import com.netbook.recommendation.user.User;
 public class Rating {
 	
     @EmbeddedId
+    @Autowired
     private RatingID iD;
 	
 	@NotNull

@@ -18,7 +18,7 @@ public class UserController {
 
 	 @Autowired UserService service;
 	    
-	    @GetMapping("/users")
+	 	@GetMapping("/users")
 	    public List<User> getAllUsers(){
 	        return service.getAllUsers();
 	    }
@@ -29,7 +29,7 @@ public class UserController {
 	    }
 	    
 	    @GetMapping("/userrated/{id}")
-	    public List<Book> getAllRatedBooks(@PathVariable Integer id){
+	    public List<Book> getUserRatings(@PathVariable Integer id){
 	    	User user = service.getUserById(id);
 	    	List<Rating> ratings = user.getRatings();
 			List<Book> ratedBooks = new ArrayList<Book>();

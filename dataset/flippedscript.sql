@@ -83,7 +83,7 @@ CREATE TABLE tagstemp(
 
 \COPY tagstemp(id, tagname) FROM 'C:\\Users\\Jeffrey\\greggg\\netbook-content\\database\\tags.csv' DELIMITER ',' CSV HEADER;
 
-INSERT INTO tags (id, tagname) SELECT DISTINCT ON (tagstemp.id) id, tagname FROM tagstemp ORDER BY id;
+INSERT INTO tags (id, tagname) SELECT DISTINCT ON (tagstemp.id) id, tagname FROM tagstemp ORDER BY id ON CONFLICT DO NOTHING;
 DROP TABLE tagstemp;
 
 
