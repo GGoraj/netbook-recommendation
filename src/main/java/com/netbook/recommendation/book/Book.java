@@ -8,7 +8,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 @Entity
-@Table(name = "books")
+@Table(name = "book")
 @Embeddable
 public class Book implements Comparable<Book>{
 

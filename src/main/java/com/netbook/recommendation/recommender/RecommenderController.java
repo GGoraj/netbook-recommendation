@@ -18,23 +18,27 @@ import com.netbook.recommendation.rating.Rating;
 
 @RestController
 public class RecommenderController {
-
+/*
 	@Autowired
 	private BookService bookService;
-	
+*/
 	@Autowired
+	private BookController bookController;
+	
+/*	@Autowired
 	private UserService userService;
 	
 	@Autowired
-	private TagService tagService;
+	private TagService tagService;*/
 	
-	UserController uCon = new UserController();
+	//UserController uCon = new UserController();
 	
 	@RequestMapping("/recommend/{id}")	
-	public List<Book> sortedList(@PathVariable Integer userId){
+	public RecommendationResponse sortedList(@PathVariable Integer id){
 		
-		List<Book> allBooks = bookService.getAllBooks();
 		
+		List<Book> allBooks = new ArrayList<Book>();
+		allBooks.add(bookController.getBookById(13));
 		//List<Book> ratedBooks = uCon.getUserRatings(userId);
 		
 		//ArrayList<Tag> likedTags = new ArrayList<Tag>();
@@ -74,8 +78,8 @@ public class RecommenderController {
 		// likedTags.sortByMostOccuring;
 		// likedTags.getTop3UniqueTags
 		// Search for highest rated book with those 3 genres in the database
-		
-		return allBooks;
+		RecommendationResponse response = new RecommendationResponse(allBooks);
+		return response;
 	}
 	
 	@RequestMapping("/hello")

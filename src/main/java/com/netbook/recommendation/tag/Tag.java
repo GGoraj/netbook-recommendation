@@ -13,7 +13,7 @@ import javax.persistence.Table;
 import com.netbook.recommendation.book.Book;
 
 @Entity
-@Table(name = "tags")
+@Table(name = "tag")
 public class Tag implements Comparable<Tag>{
 
 	@Id

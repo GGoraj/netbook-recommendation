@@ -17,21 +17,19 @@ public class BookController {
     public List<Book> getAllBooks(){
         return service.getAllBooks();
     }
-
-
-    
     
     @GetMapping("/book/{id}")
     public Book getBookById(@PathVariable("id") Integer id){
         return service.getBookById(id);
     }
     
+    /*
     @GetMapping("/userbooks/{id}")
 	public List<Book> getBooksByUserId(@PathVariable Integer id){
 		List<Book> books;
 		books = service.getAllBooks();
 		return books;
-	}
+	}*/
     
 	@GetMapping("/booktags/{id}")
 	public List<Tag> getTagsByBookId(@PathVariable Integer id){
