@@ -33,11 +33,11 @@ public class RecommenderController {
 	@RequestMapping("/recommend/{id}")	
 	public List<Book> sortedList(@PathVariable Integer userId){
 		
-		//List<Book> allBooks = bookService.getAllBooks();
+		List<Book> allBooks = bookService.getAllBooks();
 		
-		List<Book> ratedBooks = uCon.getUserRatings(userId);
+		//List<Book> ratedBooks = uCon.getUserRatings(userId);
 		
-		ArrayList<Tag> likedTags = new ArrayList<Tag>();
+		//ArrayList<Tag> likedTags = new ArrayList<Tag>();
 		/*
 		List<Rating> userRatings = userService.getRatingByUser(userId);
 		
@@ -53,7 +53,7 @@ public class RecommenderController {
 				}
 				
 			}
-		}*/
+		}
 		
 		
 		// TODO: likedBooks.sortByBestLiked (Maybe need to implement comparable)
@@ -68,17 +68,14 @@ public class RecommenderController {
 			likedTags.add(currentTags.get(z));
 			}
 		}
+		*/
 		
-		Collections.sort(ratedBooks);
+		Collections.sort(allBooks);
 		// likedTags.sortByMostOccuring;
 		// likedTags.getTop3UniqueTags
-		for(int z = ratedBooks.size();z>5;z++) {
-			ratedBooks.remove(z);
-		}
-		
 		// Search for highest rated book with those 3 genres in the database
 		
-		return ratedBooks;
+		return allBooks;
 	}
 	
 	@RequestMapping("/hello")
